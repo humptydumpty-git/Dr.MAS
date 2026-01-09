@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Dr. MAS Ministries</title>
+    <meta name="description" content="Support Dr. MAS Ministries with your donation. Secure payment via Paystack.">
+    <meta name="keywords" content="Donate, Dr. MAS, Paystack, BOC Ministries, Christian Donations">
+    <link rel="icon" href="assets/logo/f7aaa1a8-326f-47f2-a74c-84027716a2ee.jfif" type="image/jfif">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://js.paystack.co/v1/paystack.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="assets/logo/f7aaa1a8-326f-47f2-a74c-84027716a2ee.jfif" alt="Dr. MAS Logo">
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="donation.html">Donate</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h2>Support Our Ministry</h2>
+            <p>Your generous donations help us spread the gospel, support the underprivileged, and advance God's kingdom.</p>
+            <form id="donation-form">
+                <div class="form-group">
+                    <label for="amount">Donation Amount (GHS)</label>
+                    <input type="number" id="amount" name="amount" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <button type="button" id="pay-btn" class="cta-button">Donate Now</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Dr. MAS Ministries. All rights reserved.</p>
+        <p>Developed by Hump Technology Studios | <a href="mailto:humptyisme@gmail.com">humptyisme@gmail.com</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('pay-btn').addEventListener('click', function() {
+            const amount = document.getElementById('amount').value;
+            const email = document.getElementById('email').value;
+            if (!amount || !email) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            const handler = PaystackPop.setup({
+                key: 'pk_test_YOUR_PUBLIC_KEY', // Replace with actual public key
+                email: email,
+                amount: amount * 100, // Amount in kobo (for GHS, adjust accordingly)
+                currency: 'GHS',
+                ref: 'DON-' + Math.floor((Math.random() * 1000000000) + 1),
+                callback: function(response) {
+                    alert('Payment successful! Reference: ' + response.reference);
+                },
+                onClose: function() {
+                    alert('Transaction was not completed.');
+                }
+            });
+            handler.openIframe();
+        });
+    </script>
+</body>
+</html>
